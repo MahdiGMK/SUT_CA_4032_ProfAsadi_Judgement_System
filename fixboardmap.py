@@ -10,7 +10,6 @@ tree = ET.parse(circ)
 
 
 root = tree.getroot()
-print(root.text)
 
 for main in root.findall("./circuit[@name='main']"):
     inpins : list[str] = []

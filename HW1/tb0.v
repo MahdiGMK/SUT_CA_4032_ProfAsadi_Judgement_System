@@ -14,9 +14,11 @@ module tb0;
   );
 
   reg verdict;
+  int all_tests, success_count;
   initial begin
-    verdict = 1;
-    for (int i = 0; i < 200; i++) begin
+    verdict   = 1;
+    all_tests = 200;
+    for (int i = 0; i < all_tests; i = i + 1) begin
       a <= $urandom();
       b <= $urandom();
       sub_notadd <= $urandom();
@@ -28,10 +30,11 @@ module tb0;
           $display(a, " - ", b, " = %b", {cout, s}, "! but should have been %b", testing_val);
         else $display(a, " + ", b, " = %b", {cout, s}, "! but should have been %b", testing_val);
         verdict = 0;
-      end
+      end else success_count = success_count + 1;
     end
     if (verdict) $display("ACCEPTED");
     else $display("FAILED");
+    $display(success_count, " /", all_tests);
   end
 endmodule
 
