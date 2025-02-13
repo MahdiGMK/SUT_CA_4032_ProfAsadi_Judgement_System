@@ -99,7 +99,6 @@
       <a name="facing" val="west"/>
       <a name="label" val="cout"/>
       <a name="output" val="true"/>
-      <a name="radix" val="10unsigned"/>
     </comp>
     <comp lib="0" loc="(1520,140)" name="Pin">
       <a name="appearance" val="NewPins"/>
