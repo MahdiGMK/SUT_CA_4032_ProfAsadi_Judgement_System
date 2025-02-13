@@ -2,7 +2,7 @@
 set -e
 if [[ ! -e $1 || ! -e $2 ]]; then
   echo 'Usage : ./synth_valid.sh {Circuit} {TestBench}'
-  echo 'e.g. : ./synth_valid.sh HW1/bench.circ tb.v'
+  echo 'e.g. : ./synth_valid.sh HW1/bench.circ HW1/tb0.v'
   echo
   echo 'Synthesis process uses ~/logisim_evolution_workspace/ as main workspace directory'
   echo 'You can change this behaviour by assigning LOGISIM_WORKSPACE environment variable'
