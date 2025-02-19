@@ -39,7 +39,7 @@ for main in root.findall("./circuit[@name='main']"):
         boardmap.clear()
         boardmap.set('boardname' , 'ALCHITRY_AU_IO');
     else:
-        boardmap = ET.fromstring('<boardmap boardname="ALCHITRY_AU_IO">')
+        boardmap = ET.fromstring('<boardmap boardname="ALCHITRY_AU_IO"/>')
         _= main.append(boardmap)
     for pin in inpins:
         boardmap.append(ET.fromstring(f'<mc key="/{pin}" vconst="0"/>'))
