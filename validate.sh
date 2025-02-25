@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 if [[ ! -e $1 || ! -e "$2/main/verilog" ]]; then
   echo 'Usage : ./validate.sh {TestBenchName} {LogisimCompilationRoot}'
