@@ -6,5 +6,5 @@ if [[ ! -e $1 || ! -e "$2/main/verilog" ]]; then
   exit
 fi
 
-iverilog $1 $2/main/verilog/*/*.v -g2009 -o $1.out
+iverilog -g2009 -o $1.out $1 $2/main/verilog/*/*.v
 ./$1.out
