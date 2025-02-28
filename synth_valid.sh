@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 if [[ ! -e $1 || ! -e $2 ]]; then
   echo 'Usage : ./synth_valid.sh {Circuit} {TestBench}'

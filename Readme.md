@@ -1,4 +1,4 @@
-[Persian version](https://github.com/MahdiGMK/SUT_CA_4032_ProfAsadi_Judgement_System/blob/master/Readme-fa.md)
+[Persian version](Readme-fa.md)
 
 # Computer Architecture Course, Practical Homework Grading System
 
@@ -66,3 +66,62 @@ and familiarization with the grading system. The answer is essentially provided
 in the file `./HW1/bench.circ`, and you only need to execute and review it in your report.
 However, given that you will encounter much more complex circuits later in the course,
 I strongly recommend that you take this opportunity to get comfortable with using `logisim` and design this circuit on your own.
+
+## Homework 2
+
+### Question 1
+
+Design a circuit that operates according to the following instructions:
+
+```
+load:   rl <= in1
+0:      r2 <= -r1
+1:      r2 <= r1 & r2
+2:      r2 <= -r2
+3:      out1 <= r1 + r2
+        r2   <= r1 + r2
+```
+
+The ports of this circuit are as follows:
+
+```verilog
+input [31:0] in1
+input load
+input clk
+output [31:0] out1
+```
+
+The evaluation of this question is done with the following command:
+
+```bash
+./synth_valid.sh schematic.circ ./HW2/tb1.v
+```
+
+### Question 2
+
+Design the circuit according to the flowchart below:
+
+<center>
+<img src='images/2q2.jpg'/>
+
+Note that {a,q} means placing the bits of `a` to the left (more significant bits) of the bits of `q`.
+
+</center>
+
+The ports of this circuit are as follows:
+
+```verilog
+input [31:0] divisor
+input [31:0] dividend
+input start
+input clk
+output [31:0] quotient
+output [31:0] remainder
+output done
+```
+
+The evaluation of this question is done with the following command:
+
+```bash
+./synth_valid.sh schematic.circ ./HW2/tb2.v
+```
