@@ -80,12 +80,11 @@
     <code dir='ltr'>logisim</code>
     گرم کنید و این مدار را به روش خود طراحی کنید.
 
-
-
 ## تمرین ۲
 
 ### سوال ۱
-مداری طراحی کنید که طبق دستورات زیر کار کند : 
+
+مداری طراحی کنید که طبق دستورات زیر کار کند :
 
 </div>
 
@@ -118,8 +117,35 @@ load:   rl <= in1
     ./synth_valid.sh schematic.circ ./HW2/tb1.v
 
 <div dir='rtl'>
-    
+
 ### سوال ۲
-مطابق فلو چارت زیر، مدار مورد نظر را طراحی کنید: 
+
+مطابق فلو چارت زیر، مدار مورد نظر را طراحی کنید:
+
+<center>
+<img src='images/2q2.jpg'/>
+
+توجه کنید که منظور از {a,q} این است که
+بیت های a را سمت چپ(جایگاه پر ارزش تر) بیت های
+q قرار میدهیم.
+
+</center>
+درگاه های این مدار عبارتند از :
 
 </div>
+
+    input [31:0]divisor
+    input [31:0]dividend
+    input start
+    input clk
+    output [31:0]quotient
+    output [31:0]remainder
+    output done
+
+<div dir='rtl'>
+
+ارزیابی این تمرین با دستور زیر انجام میشود :
+
+</div>
+
+    ./synth_valid.sh schematic.circ ./HW2/tb2.v
