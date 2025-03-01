@@ -7,7 +7,7 @@ module carry_select_adder #(
     output [N-1:0] s,
     output cout
 );
-    // 4-segmented CSA
+    // 4-segment CSA
     localparam int SN = N / 4;
     wire [SN:0] c0segment[4];
     wire [SN:0] c1segment[4];
