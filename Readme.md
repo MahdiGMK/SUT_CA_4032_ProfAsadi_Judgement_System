@@ -1,4 +1,5 @@
-[Persian version](https://github.com/MahdiGMK/SUT_CA_4032_ProfAsadi_Judgement_System/blob/master/Readme-fa.md)
+- [Persian version](Readme-fa.md)
+- [Homework 1](<#homework-1>)
 
 # Computer Architecture Course, Practical Homework Grading System
 
