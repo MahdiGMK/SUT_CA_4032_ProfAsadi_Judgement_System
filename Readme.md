@@ -1,4 +1,6 @@
-[Persian version](Readme-fa.md)
+- [Persian version](Readme-fa.md)
+- [Homework 1](<#homework-1>)
+- [Homework 2](<#homework-2>)
 
 # Computer Architecture Course, Practical Homework Grading System
 
