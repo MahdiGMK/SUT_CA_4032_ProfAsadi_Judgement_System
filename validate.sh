@@ -6,7 +6,7 @@ if [[ ! -e $1 || ! -e "$2/main/verilog" ]]; then
   exit
 fi
 
-rm $2/main/verilog/toplevel -rf
+rm -rf $2/main/verilog/toplevel
 python fixgenlabels.py $2/main/verilog/*/*.v
 iverilog -g2009 -o $1.out $1 $2/main/verilog/*/*.v
 ./$1.out
