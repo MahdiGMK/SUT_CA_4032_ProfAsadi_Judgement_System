@@ -1,2 +1,2 @@
 #!/bin/bash
-java -jar ./logisim.jar $@
+java -jar $(dirname $0)/logisim.jar $@
