@@ -1,18 +1,18 @@
-// typedef enum bit [3:0] {
-//     ADD  = 0,
-//     SUB  = 1,
-//     MUL  = 2,
-//     DIV  = 3,
-//     AND  = 4,
-//     OR   = 5,
-//     XOR  = 6,
-//     CLO  = 7,
-//     CLZ  = 8,
-//     SLL  = 9,
-//     SRL  = 10,
-//     SRA  = 11,
-//     ROTR = 12
-// } aluop_t;
+typedef enum bit [3:0] {
+    ADD  = 0,
+    SUB  = 1,
+    MUL  = 2,
+    DIV  = 3,
+    AND  = 4,
+    OR   = 5,
+    XOR  = 6,
+    CLO  = 7,
+    CLZ  = 8,
+    SLL  = 9,
+    SRL  = 10,
+    SRA  = 11,
+    ROTR = 12
+} aluop_t;
 
 module tb;
     localparam int N = 32;
