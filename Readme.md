@@ -1,6 +1,7 @@
 - [Persian version](Readme-fa.md)
-- [Homework 1](<#homework-1>)
-- [Homework 2](<#homework-2>)
+- [Homework 1](#homework-1)
+- [Homework 2](#homework-2)
+- [Homework 3](#homework-3)
 
 # Computer Architecture Course, Practical Homework Grading System
 
@@ -126,4 +127,60 @@ The evaluation of this question is done with the following command:
 
 ```bash
 ./synth_valid.sh schematic.circ ./HW2/tb2.v
+```
+
+## Homework 3
+
+In this exercise, we will build the Arithmetic Logic Unit (ALU) of the processor!
+This unit is generally divided into three parts: preparation, computation, and output generation.
+Note that this division is a personal interpretation, and you may have your own interpretation as well.
+
+The ports of this circuit are as follows:
+
+```verilog
+input [31:0] a
+input [31:0] b
+input [ 3:0] aluop
+input output_inverted
+input output_inc
+input clk
+input rst
+output [31:0] res_low
+output [31:0] res_high
+output done
+```
+
+This unit is responsible for computing all the arithmetic and logical operations required at the register level in our system. Therefore, it must support the following instructions using `aluop`:
+
+0. **ADD**:
+   Implement this operation using the Carry Select Adder algorithm with 4-bit block lengths.
+1. **SUB**:
+   Implement the subtractor with minor modifications to the adder (you can use bit 0 as `sub_not_add`).
+2. **MUL**:
+   Perform unsigned multiplication of `a` and `b` using an improved version of the shift-and-add algorithm (using Carry Save Adder at each step, advancing 2 digits at a time). For correct operation, this requires a `start` signal, which you can obtain by comparing the current request with the last issued request.
+3. **DIV**:
+   Implement this using the algorithm you developed in the previous homework. Since the algorithm from the previous homework also requires a `start` signal, you can generate it using the same technique as above.
+4. **AND**
+5. **OR**
+6. **XOR**
+7. **CLO**:
+   This operation counts the number of leading 1s in `a`. For implementation ideas, refer to the [attached Verilog code](HW3/alu.v).
+8. **CLZ**:
+   Similarly, this operation counts the number of leading 0s in `a`.
+9. **SLL** (Shift Left Logical)
+10. **SRL** (Shift Right Logical)
+11. **SRA** (Shift Right Arithmetic)
+12. **ROTR** (Rotate Right)
+
+After performing these operations, to keep the number of ALU opcodes logical, in addition to the operation specified by the opcode, we must also consider `output_inverted` and `output_inc`. In this case, the output will be as follows:
+
+```verilog
+output_inverted  :  {res_high, res_low} =~{calc_high, calc_low} + output_inc
+!output_inverted :  {res_high, res_low} = {calc_high, calc_low} + output_inc
+```
+
+Finally, the evaluation of this homework is done with the following command:
+
+```bash
+./synth_valid.sh schematic.circ ./HW3/tb.v
 ```

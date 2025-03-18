@@ -1,7 +1,8 @@
 <div dir='rtl'>
 
-- [تمرین ۱](<#تمرین-۱>)
-- [تمرین ۲](<#تمرین-۲>)
+- [تمرین ۱](#تمرین-۱)
+- [تمرین ۲](#تمرین-۲)
+- [تمرین ۳](#تمرین-۳)
 
 # سیستم داوری تمرینات عملی درس معماری کامپیوتر
 
@@ -11,12 +12,14 @@
 
 </div>
 
+```bash
     # iverilog
     # python (python-is-python3)
     # ubuntu/debian (apt) :
     sudo apt install iverilog python3 python-is-python3
     # arch (pacman)
     sudo pacman -S iverilog python
+```
 
 <div dir='rtl'>
 
@@ -49,19 +52,23 @@
 
 </div>
 
+```verilog
     input [3:0]a
     input [3:0]b
     input sub_notadd
     output [3:0]s
     output cout
+```
 
 <div dir='rtl'>
 با توجه به آموخته هایتان در دروس گذشته، چنین مداری را
     میتوان به شکل زیر توصیف نمود :
 </div>
 
+```verilog
     sub_notadd  :    {cout , s} = a + b
     !sub_notadd :    {cout , s} = a + ~b + 1
+```
 
 <div dir='rtl'>
 
@@ -69,7 +76,9 @@
 
 </div>
 
+```bash
     ./synth_valid.sh ./HW1/bench.circ ./HW1/tb0.v
+```
 
 <div dir='rtl'>
 با توجه به این که این تمرین اول است،
@@ -91,7 +100,7 @@
 
 </div>
 
-```
+```verilog
 load:   rl <= in1
 0:      r2 <= -r1
 1:      r2 <= r1 & r2
@@ -106,10 +115,12 @@ load:   rl <= in1
 
 </div>
 
+```verilog
     input [31:0]in1
     input load
     input clk
     output [31:0]out1
+```
 
 <div dir='rtl'>
 
@@ -117,7 +128,9 @@ load:   rl <= in1
 
 </div>
 
+```bash
     ./synth_valid.sh schematic.circ ./HW2/tb1.v
+```
 
 <div dir='rtl'>
 
@@ -137,6 +150,7 @@ q قرار میدهیم.
 
 </div>
 
+```verilog
     input [31:0]divisor
     input [31:0]dividend
     input start
@@ -144,6 +158,7 @@ q قرار میدهیم.
     output [31:0]quotient
     output [31:0]remainder
     output done
+```
 
 <div dir='rtl'>
 
@@ -152,3 +167,84 @@ q قرار میدهیم.
 </div>
 
     ./synth_valid.sh schematic.circ ./HW2/tb2.v
+
+<div dir='rtl'>
+
+## تمرین ۳
+
+در این تمرین واحد حسابی منطقی (ALU) پردازنده را میسازیم!
+این واحد به طور کلی به ۳ بخش آماده سازی،
+محاسبه و تولید خروجی تقسیم میشود.
+درضمن تقسیم بنده بیان شده برداشت شخصی است و میتوانید برداشت خود را نیز داشته باشید.
+
+درگاه های این مدار عبارتند از :
+
+</div>
+
+```verilog
+    input [31:0] a
+    input [31:0] b
+    input [ 3:0] aluop
+    input output_inverted
+    input output_inc
+    input clk
+    input rst
+    output [31:0] res_low
+    output [31:0] res_high
+    output done
+```
+
+<div dir='rtl'>
+
+این واحد مسئول محاسبه تمامی اعمال حسابی و منطقی مورد نیاز در سطح ثبات ها در سیستم
+ماست. بنابرین باید دستورات زیر را با استفاده از aluop پشتیبانی کند :
+
+0. ADD :
+   با استفاده از الگوریتم Carry Select Adder با طول بلوک های ۴ تایی این عملیات را پیاده سازی کنید.
+1. SUB :
+   با تغییر جزئی در نحوه کارکرد با جمع کننده تفریق کننده را نیز پیاده کنید. ( میتوانید از بیت ۰ به عنوان
+   sub_not_add استفاده کنید )
+2. MUL :
+   ضرب بدون علامت a و b را با استفاده از نسخه بهبود
+   یافته(با استفاده از الگوریتم Carry Save Adder در هر مرحله
+   ۲ رقم جلو میرویم) الگوریتم شیفت و جمع برای صحت در کارکرد به یک سیگنال start نیاز دارد
+   که آنرا میتوانید با مقایسه کردن درخواست این کلاک با آخرین درخواست صادر شده بدست بیاورید.
+3. DIV :
+   با استفاده از الگوریتمی که در تمرین گذشته پیاده کردید این مورد را نیز انجام دهید.
+   همچنین با توجه به نیاز الگوریتم تمرین قبل به start ، میتوانید آنرا با استفاده از تکنیک قبلی تولید کنید.
+4. AND
+5. OR
+6. XOR
+7. CLO :
+   این عملیات تعداد بیت های ۱ مقدم عدد a را میشمارد. برای ایده گرفتن از نحوه پیاده سازی این عملیات میتوانید
+   به
+   [کد وریلاگ ضمیمه](HW3/alu.v)
+   نگاه کنید.
+
+8. CLZ :
+   به طور مشابه عمل قبلی، تعداد بیت های ۰ مقدم عدد a را میشمارد.
+9. SLL : شیفت چپ منطقی
+10. SRL : شیفت راست منطقی
+11. SRA : شیفت راست حسابی
+12. ROTR : چرخش به راست
+
+حال پس از این اعمال، برای این که تعداد opcode های ALU منطقی باشند، علاوه بر عمل مشخص شده در opcode باید
+به output_inverted و output_inc نگاه کنیم.
+در این صورت خروجی به صورت زیر خواهد بود :
+
+</div>
+
+```verilog
+    output_inverted  :  {res_high, res_low} =~{calc_high, calc_low} + output_inc
+    !output_inverted :  {res_high, res_low} = {calc_high, calc_low} + output_inc
+```
+
+<div dir='rtl'>
+
+در نهایت، ارزیابی این تمرین با دستور زیر انجام میشود :
+
+</div>
+
+```bash
+    ./synth_valid.sh schematic.circ ./HW3/tb.v
+```
