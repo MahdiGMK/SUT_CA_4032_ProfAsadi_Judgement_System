@@ -28,7 +28,7 @@ module tb;
     wire done;
 
 
-    alu _main (
+    main _main (
         .a(a),
         .b(b),
         .aluop(aluop),
