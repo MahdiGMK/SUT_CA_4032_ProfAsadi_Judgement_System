@@ -5,21 +5,21 @@
 // low2low
 // hight2low
 //
-typedef enum bit [3:0] {
-    ADD  = 0,
-    SUB  = 1,
-    MUL  = 2,
-    DIV  = 3,
-    AND  = 4,
-    OR   = 5,
-    XOR  = 6,
-    CLO  = 7,
-    CLZ  = 8,
-    SLL  = 9,
-    SRL  = 10,
-    SRA  = 11,
-    ROTR = 12
-} aluop_t;
+// typedef enum bit [3:0] {
+//     ADD  = 0,
+//     SUB  = 1,
+//     MUL  = 2,
+//     DIV  = 3,
+//     AND  = 4,
+//     OR   = 5,
+//     XOR  = 6,
+//     CLO  = 7,
+//     CLZ  = 8,
+//     SLL  = 9,
+//     SRL  = 10,
+//     SRA  = 11,
+//     ROTR = 12
+// } aluop_t;
 module alu #(
     parameter int N = 32
 ) (
@@ -107,7 +107,7 @@ module alu #(
                 done = 1;
             end
             SRA: begin  // shift right arithmetic
-                {calc_high, calc_low} = a >>> b[4:0];
+                {calc_high, calc_low} = signed'(a) >>> b[4:0];
                 done = 1;
             end
             ROTR: begin  // rotate right

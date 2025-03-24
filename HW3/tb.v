@@ -123,7 +123,7 @@ module tb;
                     calc_high = 0;
                 end
                 SRA: begin  // shift right arithmetic
-                    {calc_high, calc_low} = a >>> b[4:0];
+                    {calc_high, calc_low} = signed'(a) >>> b[4:0];
                 end
                 ROTR: begin  // rotate right
                     {calc_low, calc_high} = {a, {N{1'b0}}} >> b[4:0];
