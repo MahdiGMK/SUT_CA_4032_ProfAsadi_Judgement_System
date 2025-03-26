@@ -11,7 +11,11 @@ tree = ET.parse(circ)
 
 root = tree.getroot()
 
-for main in root.findall("./circuit[@name='main']"):
+main_id_node = root.find("./main")
+for main in root.findall(f"./circuit[@name='{main_id_node.get('name')}']"):
+    main.set('name' , 'main')
+    main_id_node.set('name' , 'main')
+    main.find("./a[@name='circuit']").set('val' , 'main')
     inpins : list[str] = []
     outpins : list[str] = []
     for pin in main.findall("./comp[@name='Pin']"):
