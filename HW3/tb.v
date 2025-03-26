@@ -152,7 +152,7 @@ module tb;
                         {
                             res_high, res_low
                         },
-                        " != ",
+                        " != 0x%x",
                         {
                             (~{calc_high, calc_low}) + output_inc
                         }
@@ -167,7 +167,7 @@ module tb;
                         b,
                         " op:",
                         aluop,
-                        "+%b",
+                        "+%b   ",
                         output_inc,
                         " result: 0x%x",
                         {
