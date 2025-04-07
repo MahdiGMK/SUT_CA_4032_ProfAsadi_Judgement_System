@@ -20,7 +20,7 @@
 //     SRA  = 11,
 //     ROTR = 12
 // } aluop_t;
-module alu #(
+module main #(
     parameter int N = 32
 ) (
     input [N-1:0] a,
