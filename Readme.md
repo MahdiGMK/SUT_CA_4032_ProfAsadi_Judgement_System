@@ -2,6 +2,7 @@
 - [Homework 1](#homework-1)
 - [Homework 2](#homework-2)
 - [Homework 3](#homework-3)
+- [Homework 4](#homework-4)
 
 # Computer Architecture Course, Practical Homework Grading System
 
@@ -183,4 +184,81 @@ Finally, the evaluation of this homework is done with the following command:
 
 ```bash
 ./synth_valid.sh schematic.circ ./HW3/tb.v
+```
+
+## Homework 4
+
+In this exercise, we aim to implement a simple processor supporting a very limited subset of MIPS (little-endian) instructions.
+
+### **MIPS R-Type Instruction Format**
+
+| Bit Range | Field Name | Width (bits) | Description                            |
+| --------- | ---------- | ------------ | -------------------------------------- |
+| 31 – 26   | `opcode`   | 6            | Operation code (`0` for R-type).       |
+| 25 – 21   | `rs`       | 5            | First source register operand.         |
+| 20 – 16   | `rt`       | 5            | Second source register operand.        |
+| 15 – 11   | `rd`       | 5            | Destination register operand.          |
+| 10 – 6    | `shamt`    | 5            | Shift amount (for shift instructions). |
+| 5 – 0     | `funct`    | 6            | Function code (extends `opcode`).      |
+
+```
+31   26|25  21|20  16|15  11|10  6|5     0
++------+------+------+------+-----+-------+
+|opcode|  rs  |  rt  |  rd  |shamt| funct |
++------+------+------+------+-----+-------+
+```
+
+### **MIPS I-Type Instruction Format**
+
+| Bit Range | Field Name  | Width (bits) | Description                                   |
+| --------- | ----------- | ------------ | --------------------------------------------- |
+| 31 – 26   | `opcode`    | 6            | Operation code (determines instruction type). |
+| 25 – 21   | `rs`        | 5            | Source register operand.                      |
+| 20 – 16   | `rt`        | 5            | Destination/target register operand.          |
+| 15 – 0    | `immediate` | 16           | Immediate value or offset.                    |
+
+```
+ 31  26|25  21|20  16|15               0
++------+------+------+------------------+
+|opcode|  rs  |  rt  |     immediate    |
++------+------+------+------------------+
+```
+
+### **MIPS Instruction Encoding Reference**
+
+| Instruction | Type   | Opcode   | Funct    | Notes                                                    |
+| ----------- | ------ | -------- | -------- | -------------------------------------------------------- |
+| `add`       | R-Type | `000000` | `100000` | `rd = rs + rt`                                           |
+| `addi`      | I-Type | `001000` | —        | `rt = rs + imm` (sign-extended)                          |
+| `sub`       | R-Type | `000000` | `100010` | `rd = rs - rt`                                           |
+| `or`        | R-Type | `000000` | `100101` | `rd = rs \| rt` (bitwise OR)                             |
+| `and`       | R-Type | `000000` | `100100` | `rd = rs & rt` (bitwise AND)                             |
+| `xor`       | R-Type | `000000` | `100110` | `rd = rs ^ rt` (bitwise XOR)                             |
+| `sll`       | R-Type | `000000` | `000100` | `rd = rs << rt` (logical shift left)                     |
+| `srl`       | R-Type | `000000` | `000110` | `rd = rs >> rt` (logical shift right)                    |
+| `sra`       | R-Type | `000000` | `000111` | `rd = rs >>> rt` (arithmetic shift right, sign-extended) |
+
+### Processor Memory Unit
+
+To facilitate testing of our processor, we'll implement a JTAG mechanism for easy programming and reading of instruction and data memories.
+
+Memory unit connections with JTAG:
+
+![Jtag](images/memlayout.png)
+
+The ports of this circuit are as follows:
+
+```verilog
+    input clk
+    input rst
+    input [31:0] Jin
+    input Jen
+    output [31:0] Jout
+    output [31:0] R1...R31
+```
+
+The evaluation of this exercise is performed with:
+
+```bash
+    ./synth_valid.sh schematic.circ ./HW4/tb.v
 ```

@@ -3,6 +3,7 @@
 - [تمرین ۱](#تمرین-۱)
 - [تمرین ۲](#تمرین-۲)
 - [تمرین ۳](#تمرین-۳)
+- [تمرین ۴](#تمرین-۴)
 
 # سیستم داوری تمرینات عملی درس معماری کامپیوتر
 
@@ -247,4 +248,96 @@ q قرار میدهیم.
 
 ```bash
     ./synth_valid.sh schematic.circ ./HW3/tb.v
+```
+
+<div dir='rtl'>
+
+## تمرین ۴
+
+در این تمرین قصد داریم یک پردازنده ساده با پشتیبانی از زیرمجموعه بسیار محدودی از دستورات
+mips little endian
+را پیاده کنیم.
+
+</div>
+
+### **MIPS R-Type Instruction Format**
+
+| Bit Range | Field Name | Width (bits) | Description                            |
+| --------- | ---------- | ------------ | -------------------------------------- |
+| 31 – 26   | `opcode`   | 6            | Operation code (`0` for R-type).       |
+| 25 – 21   | `rs`       | 5            | First source register operand.         |
+| 20 – 16   | `rt`       | 5            | Second source register operand.        |
+| 15 – 11   | `rd`       | 5            | Destination register operand.          |
+| 10 – 6    | `shamt`    | 5            | Shift amount (for shift instructions). |
+| 5 – 0     | `funct`    | 6            | Function code (extends `opcode`).      |
+
+```
+31   26|25  21|20  16|15  11|10  6|5     0
++------+------+------+------+-----+-------+
+|opcode|  rs  |  rt  |  rd  |shamt| funct |
++------+------+------+------+-----+-------+
+```
+
+### **MIPS I-Type Instruction Format**
+
+| Bit Range | Field Name  | Width (bits) | Description                                   |
+| --------- | ----------- | ------------ | --------------------------------------------- |
+| 31 – 26   | `opcode`    | 6            | Operation code (determines instruction type). |
+| 25 – 21   | `rs`        | 5            | Source register operand.                      |
+| 20 – 16   | `rt`        | 5            | Destination/target register operand.          |
+| 15 – 0    | `immediate` | 16           | Immediate value or offset.                    |
+
+```
+ 31  26|25  21|20  16|15               0
++------+------+------+------------------+
+|opcode|  rs  |  rt  |     immediate    |
++------+------+------+------------------+
+```
+
+### **MIPS Instruction Encoding Reference**
+
+| Instruction | Type   | Opcode   | Funct    | Notes                                                    |
+| ----------- | ------ | -------- | -------- | -------------------------------------------------------- |
+| `add`       | R-Type | `000000` | `100000` | `rd = rs + rt`                                           |
+| `addi`      | I-Type | `001000` | —        | `rt = rs + imm` (sign-extended)                          |
+| `sub`       | R-Type | `000000` | `100010` | `rd = rs - rt`                                           |
+| `or`        | R-Type | `000000` | `100101` | `rd = rs \| rt` (bitwise OR)                             |
+| `and`       | R-Type | `000000` | `100100` | `rd = rs & rt` (bitwise AND)                             |
+| `xor`       | R-Type | `000000` | `100110` | `rd = rs ^ rt` (bitwise XOR)                             |
+| `sll`       | R-Type | `000000` | `000100` | `rd = rs << rt` (logical shift left)                     |
+| `srl`       | R-Type | `000000` | `000110` | `rd = rs >> rt` (logical shift right)                    |
+| `sra`       | R-Type | `000000` | `000111` | `rd = rs >>> rt` (arithmetic shift right, sign-extended) |
+
+<div dir='rtl'>
+
+### واحد حافظه پردازنده
+
+برای این که بتوانیم به سهولت پردازنده خود را مورد آزمون قرار دهیم، از مکانیزم تحت عنوان JTAG استفاده میکنیم
+که بتوانیم به آسانی محتوای حافظه های دستور و داده برنامه را تنظیم و بازخوانی کنیم.
+
+اتصالات واحد حافظه با JTAG به صورت زیر میشود :
+
+![Jtag](images/memlayout.png)
+
+درگاه های این مدار عبارتند از :
+
+</div>
+
+```verilog
+    input clk
+    input rst
+    input [31:0] Jin
+    input Jen
+    output [31:0] Jout
+    output [31:0] R1...R31
+```
+
+<div dir='rtl'>
+
+در نهایت، ارزیابی این تمرین با دستور زیر انجام میشود :
+
+</div>
+
+```bash
+    ./synth_valid.sh schematic.circ ./HW4/tb.v
 ```

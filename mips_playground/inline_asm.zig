@@ -56,4 +56,3 @@ pub noinline fn fnc() void {
         \\ sra  $2,  $4,  $8
     );
 }
-
