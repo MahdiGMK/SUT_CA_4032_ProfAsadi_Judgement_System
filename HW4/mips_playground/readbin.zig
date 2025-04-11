@@ -45,6 +45,6 @@ pub fn main() !void {
         // } else std.debug.print("{} {}\n", .{ decompose.detail.I, decompose.opcode });
 
         // verilog format
-        try stdout.print("instructions[{}] = {b:0>32};\n", .{ idx, inst });
+        try stdout.print("instructions[{}] = 32'b{b:0>32};\n", .{ idx, inst });
     }
 }
