@@ -158,17 +158,6 @@ module tb;
         Jen = 0;
         rst = 1;
         #2 rst = 0;  // cpu-ex
-        $monitor(
-            "Expectation : ",
-            /*" [1]%x", ireg[1], " [2]%x", ireg[2], " [3]%x", ireg[3], " [4]%x", ireg[4], " [5]%x",
-                 ireg[5], " [6]%x", ireg[6], " [7]%x", ireg[7], */
-            " [8]%x", ireg[8], " [9]%x", ireg[9], " [10]%x", ireg[10], " [11]%x", ireg[11],
-            " [12]%x", ireg[12], " [13]%x", ireg[13], " [14]%x", ireg[14], " [15]%x", ireg[15],
-            " [16]%x", ireg[16], " [17]%x", ireg[17], " [18]%x", ireg[18], " [19]%x", ireg[19],
-            " [20]%x", ireg[20], " [21]%x", ireg[21], " [22]%x", ireg[22], " [23]%x", ireg[23],
-            " [24]%x", ireg[24], " [25]%x", ireg[25]  /*, " [26]%x", ireg[26], " [27]%x", ireg[27],
-            " [28]%x", ireg[28], " [29]%x", ireg[29], " [30]%x", ireg[30], " [31]%x", ireg[31]*/
-        );
         fail_flag = 0;
         for (i = 0; i < nsteps; i++)
         if (!fail_flag) begin
@@ -176,6 +165,18 @@ module tb;
             #2;
             for (j = 1; j < 32; j++) if (R[j] !== ireg[j]) fail_flag = 1;
             if (fail_flag) begin
+                $display(
+                    "Expectation : ",
+                    /*" [1]%x", ireg[1], " [2]%x", ireg[2], " [3]%x", ireg[3], " [4]%x", ireg[4], " [5]%x",
+                         ireg[5], " [6]%x", ireg[6], " [7]%x", ireg[7], */
+                    " [8]%x", ireg[8], " [9]%x", ireg[9], " [10]%x", ireg[10], " [11]%x", ireg[11],
+                    " [12]%x", ireg[12], " [13]%x", ireg[13], " [14]%x", ireg[14], " [15]%x",
+                    ireg[15], " [16]%x", ireg[16], " [17]%x", ireg[17], " [18]%x", ireg[18],
+                    " [19]%x", ireg[19], " [20]%x", ireg[20], " [21]%x", ireg[21], " [22]%x",
+                    ireg[22], " [23]%x", ireg[23], " [24]%x", ireg[24], " [25]%x",
+                    ireg[25]  /*, " [26]%x", ireg[26], " [27]%x", ireg[27],
+                    " [28]%x", ireg[28], " [29]%x", ireg[29], " [30]%x", ireg[30], " [31]%x", ireg[31]*/
+                );
                 $display("Reality : ",
                          /*" [1]%x", R[1], " [2]%x", R[2], " [3]%x", R[3], " [4]%x", R[4], " [5]%x",
                          R[5], " [6]%x", R[6], " [7]%x", R[7], */
@@ -186,11 +187,14 @@ module tb;
                          " [24]%x", R[24], " [25]%x", R[25]  /*, " [26]%x", R[26], " [27]%x", R[27],
                     " [28]%x", R[28], " [29]%x", R[29], " [30]%x", R[30], " [31]%x", R[31]*/
                 );
+                $display("FAILED");
+                $display(i, " /", nsteps);
             end
         end
-        if (fail_flag) $display("FAILED");
-        else $display("ACCEPTED");
-        $display(i, " /", nsteps);
+        if (!fail_flag) begin
+            $display("ACCEPTED");
+            $display(i, " /", nsteps);
+        end
 
 
 
