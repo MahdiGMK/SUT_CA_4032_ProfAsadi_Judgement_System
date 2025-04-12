@@ -173,6 +173,7 @@ module tb;
         for (i = 0; i < nsteps; i++)
         if (!fail_flag) begin
             exec_internal();
+            #2;
             for (j = 1; j < 32; j++) if (R[j] !== ireg[j]) fail_flag = 1;
             if (fail_flag) begin
                 $display("Reality : ",
@@ -186,7 +187,6 @@ module tb;
                     " [28]%x", R[28], " [29]%x", R[29], " [30]%x", R[30], " [31]%x", R[31]*/
                 );
             end
-            #2;
         end
         if (fail_flag) $display("FAILED");
         else $display("ACCEPTED");
