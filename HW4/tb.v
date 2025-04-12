@@ -169,9 +169,10 @@ module tb;
             " [24]%x", ireg[24], " [25]%x", ireg[25]  /*, " [26]%x", ireg[26], " [27]%x", ireg[27],
             " [28]%x", ireg[28], " [29]%x", ireg[29], " [30]%x", ireg[30], " [31]%x", ireg[31]*/
         );
-        for (i = 0; i < nsteps; i++) begin
+        fail_flag = 0;
+        for (i = 0; i < nsteps; i++)
+        if (!fail_flag) begin
             exec_internal();
-            fail_flag = 0;
             for (j = 1; j < 32; j++) if (R[j] !== ireg[j]) fail_flag = 1;
             if (fail_flag) begin
                 $display("Reality : ",
@@ -184,7 +185,6 @@ module tb;
                          " [24]%x", R[24], " [25]%x", R[25]  /*, " [26]%x", R[26], " [27]%x", R[27],
                     " [28]%x", R[28], " [29]%x", R[29], " [30]%x", R[30], " [31]%x", R[31]*/
                 );
-                break;
             end
             #2;
         end
