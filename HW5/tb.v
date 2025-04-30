@@ -43,7 +43,6 @@ module tb;
             case (inst_reg[31:26])
                 6'b000000: begin  // RType
                     case (inst_reg[5:0])
-                        6'b000000: write2reg(inst_rd, val_rt << inst_reg[10:6]);  // sll
                         6'b100000: write2reg(inst_rd, val_rs + val_rt);  // add
                         6'b100010: write2reg(inst_rd, val_rs - val_rt);  // sub
                         6'b100100: write2reg(inst_rd, val_rs & val_rt);  // and
@@ -52,6 +51,8 @@ module tb;
                         6'b000100: write2reg(inst_rd, val_rs << val_rt[4:0]);  // sll
                         6'b000110: write2reg(inst_rd, val_rs >> val_rt[4:0]);  // srl
                         6'b000111: write2reg(inst_rd, sra(val_rs, val_rt[4:0]));  // sra
+                        6'b000000:
+                        write2reg(inst_rd, val_rt << inst_reg[10:6]);  // sll (imm) rd=rt<<shamt
                         6'b011010: begin  // div HI=rs%rt; LO=rs/rt
                             ireghi = val_rs % val_rt;
                             ireglo = val_rs / val_rt;
@@ -91,10 +92,10 @@ module tb;
                     $display("load %x", (data_addr >> 2) & 511);
                     write2reg(inst_rt, data_mem[(data_addr>>2)&511]);
                 end
-                6'b000101: begin
+                6'b000101: begin  // bne if(rs!=rt) pc+=offset
                     // $display("wat", val_rs, " ", val_rt, " ", inst_imm_sext);
                     ipc += val_rs != val_rt ? inst_imm_sext : 0;
-                end  // bne if(rs!=rt) pc+=offset*4
+                end
                 6'b001010: write2reg(inst_rt, val_rs < inst_imm_sext ? 1 : 0);  // slti rt=rs<imm
                 6'b000010: ipc = inst_imm;  // j pc=target
                 default $display("NOT IMPLEMENTED : [opcode: %b]", inst_reg[31:26]);

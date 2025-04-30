@@ -3,6 +3,7 @@
 - [Homework 2](#homework-2)
 - [Homework 3](#homework-3)
 - [Homework 4](#homework-4)
+- [Homework 5](#homework-5)
 
 # Computer Architecture Course, Practical Homework Grading System
 
@@ -261,4 +262,28 @@ The evaluation of this exercise is performed with:
 
 ```bash
     ./synth_valid.sh schematic.circ ./HW4/tb.v
+```
+
+## Homework 5
+
+Add following instructions to your processor :
+
+| Instruction | Type   | Opcode   | Funct    | Notes                                   |
+| ----------- | ------ | -------- | -------- | --------------------------------------- |
+| `div`       | R-Type | `000000` | `011010` | `hi = rs % rt; lo = rs / rt`            |
+| `sll`       | R-Type | `000000` | `000000` | `rd = rt << shamt` (logical shift left) |
+| `mfhi`      | R-Type | `000000` | `010000` | `rd = hi`                               |
+| `mflo`      | R-Type | `000000` | `010010` | `rd = lo`                               |
+| `sw`        | I-Type | `101011` | —        | `*(int*)(offset+rs)=rt` (sign-extended) |
+| `lw`        | I-Type | `100011` | —        | `rt=*(int*)(offset+rs)` (sign-extended) |
+| `bne`       | I-Type | `000101` | —        | `if(rs!=rt) pc+=offset` (sign-extended) |
+| `slti`      | I-Type | `001010` | —        | `rt=rs<imm` (sign-extended)             |
+| `jmp`       | I-Type | `000010` | —        | `pc=target`                             |
+
+Since the div instruction requires multiple clock cycles to complete, you need to implement the `InstDone` signal in your processor design. This signal indicates when the instruction has finished execution and helps synchronize with the grading system.
+
+The evaluation of this exercise is performed with:
+
+```bash
+    ./synth_valid.sh schematic.circ ./HW5/tb.v
 ```
