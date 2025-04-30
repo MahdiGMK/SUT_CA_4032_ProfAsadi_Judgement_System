@@ -15,16 +15,16 @@ const Instruction = packed struct {
 /// ```bash
 /// readelf -l mips-exe
 /// ```
-const foff = 0x000330;
-const voff = 0x00020330;
+const foff = 0x000350;
+const voff = 0x00020350;
 
 /// function address
 /// ```bash
 /// nm -C --defined-only mips-exe | rg fnc
 /// ```
-const vaddr = 0x000207b0;
+const vaddr = 0x000207c0;
 
-const num_inst = 9;
+const num_inst = 60;
 
 pub fn main() !void {
     const f =
@@ -36,7 +36,7 @@ pub fn main() !void {
 
     var stdout = io.getStdOut().writer();
 
-    for (buf, 0..) |inst, idx| {
+    for (buf, 0..) |bits, idx| {
         // std.debug.print("{x:0>8}\n", .{inst});
         // stdout.print("{b:0>32}\n", .{(inst)});
         // const decompose: Instruction = @bitCast(inst);
@@ -45,6 +45,12 @@ pub fn main() !void {
         // } else std.debug.print("{} {}\n", .{ decompose.detail.I, decompose.opcode });
 
         // verilog format
-        try stdout.print("instructions[{}] = 32'b{b:0>32};\n", .{ idx, inst });
+        var inst: Instruction = @bitCast(bits);
+        if (inst.opcode == 0b000010)
+            inst.detail.J -= vaddr >> 2;
+        try stdout.print(
+            "instructions[{}] = 32'b{b:0>32};\n",
+            .{ idx, @as(u32, @bitCast(inst)) },
+        );
     }
 }
