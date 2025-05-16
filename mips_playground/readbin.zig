@@ -46,7 +46,7 @@ pub fn main() !void {
 
         // verilog format
         var inst: Instruction = @bitCast(bits);
-        if (inst.opcode == 0b000010)
+        if (inst.opcode == 0b000010 or inst.opcode == 0b000011)
             inst.detail.J -= vaddr >> 2;
         try stdout.print(
             "instructions[{}] = 32'b{b:0>32};\n",

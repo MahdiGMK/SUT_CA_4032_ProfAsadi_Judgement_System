@@ -44,90 +44,34 @@ pub fn main() !void {
 // \\ andi $31, $31, 0xffff
 
 pub noinline fn fnc() void {
-    // var xs: [3]usize = .{ 0, 1, 0 };
-    // for (0..10) |i|
-    //     xs[(i + 2) % 3] = xs[(i + 1) % 3] + xs[i % 3];
-    // asm volatile (
-    //     \\addi $s0, $zero, 15
-    //     \\addi $s1, $zero, 24
-    //     \\addi $s2, $zero, 2
-    //     \\sub $t0, $s1, $s0
-    //     \\and $t1, $s1, $s0
-    //     \\or $t2, $s1, $s0
-    //     \\xor $t3, $s1, $s0
-    //     \\sllv $t4, $s2, $s2
-    //     \\sub $s3, $zero, $s1
-    //     \\srlv $t5, $s2, $s2
-    //     \\srav $t6, $s2, $s2
-    //     \\addi $s4, $zero, 7
-    //     \\sub  $t7, $s0, $s4
-    //     \\and  $t8, $s0, $s4
-    //     \\or   $t9, $s0, $s4
-    //     \\xor  $t0, $s0, $s4
-    //     \\sllv $t1, $s2, $s4
-    //     \\sub  $s5, $zero, $s4
-    //     \\srlv $t2, $s2, $s4
-    //     \\srav $t3, $s2, $s4
-    //     \\addi $s6, $zero, 31
-    // );
     asm volatile (
-        \\        addi   $sp,$sp,-32
-        \\        sw      $fp,28($sp)
-        \\        add    $fp,$sp,$0
-        \\        sw      $0,12($fp)
-        \\        addi    $2,$0, 1                        # 0x1
-        \\        sw      $2,16($fp)
-        \\        sw      $0,20($fp)
-        \\        sw      $0,8($fp)
-        \\        j       $L2
-        \\        nop
+        \\j main
         \\
-        \\$L3:
-        \\        lw      $2,8($fp)
-        \\        nop
-        \\        addi   $3,$2,1;
-        \\        addi      $2,$0,3                        # 0x3
-        \\        div     $0,$3,$2
-        \\        nop
-        \\        mfhi    $2
-        \\        sll     $2,$2,2
-        \\        addi   $3,$fp,8
-        \\        add    $2,$3,$2
-        \\        lw      $3,4($2)
-        \\        lw      $4,8($fp)
-        \\        addi      $2,$0,3                        # 0x3
-        \\        div     $0,$4,$2
-        \\        nop
-        \\        mfhi    $2
-        \\        sll     $2,$2,2
-        \\        addi   $4,$fp,8
-        \\        add    $2,$4,$2
-        \\        lw      $2,4($2)
-        \\        lw      $4,8($fp)
-        \\        nop
-        \\        addi   $5,$4,2
-        \\        addi      $4,$0,3                        # 0x3
-        \\        div     $0,$5,$4
-        \\        nop
-        \\        mfhi    $4
-        \\        add    $3,$3,$2
-        \\        sll     $2,$4,2
-        \\        addi   $4,$fp,8
-        \\        add    $2,$4,$2
-        \\        sw      $3,4($2)
-        \\        lw      $2,8($fp)
-        \\        nop
-        \\        addi   $2,$2,1
-        \\        sw      $2,8($fp)
-        \\$L2:
-        \\        lw      $2,8($fp)
-        \\        nop
-        \\        slt     $2,$2,10
-        \\        bne     $2,$0,$L3
-        \\        add    $sp,$fp,$0
-        \\        lw      $fp,28($sp)
-        \\        addi   $sp,$sp,32
-        \\        jr      $31
-        \\        nop
+        \\fact:
+        \\addi $v0 , $zero , 1
+        \\beqz $a0 , done
+        \\nop
+        \\loop:
+        \\mul $v0 , $a0 , $v0
+        \\addi $a0 , $a0 , -1
+        \\bnez $a0 , loop
+        \\nop
+        \\done:
+        \\jr $ra
+        \\nop
+        \\
+        \\main:
+        \\addi $sp , $sp , -8
+        \\sw $ra , ($sp)
+        \\addi $a0 , $zero , 12
+        \\jal fact
+        \\lw $ra , ($sp)
+        \\addi $sp , $sp , 8
+        \\
     );
+}
+
+pub noinline fn func(n: u32) u32 {
+    if (n == 0) return 1;
+    return @truncate(n * func(n - 1));
 }
