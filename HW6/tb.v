@@ -63,7 +63,7 @@ module tb;
                         end
                         6'b010000: write2reg(inst_rd, ireghi);  // mfhi rd=HI
                         6'b010010: write2reg(inst_rd, ireglo);  // mflo rd=LO
-                        6'b001000: ipc = val_rs;
+                        6'b001000: ipc = val_rs;  // jr : ipc=rs
                         default $display("NOT IMPLEMENTED : rtype[func: %b]", inst_reg[5:0]);
                     endcase
                 end

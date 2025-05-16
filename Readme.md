@@ -4,6 +4,7 @@
 - [Homework 3](#homework-3)
 - [Homework 4](#homework-4)
 - [Homework 5](#homework-5)
+- [Homework 6](#homework-6)
 
 # Computer Architecture Course, Practical Homework Grading System
 
@@ -286,4 +287,23 @@ The evaluation of this exercise is performed with:
 
 ```bash
     ./synth_valid.sh schematic.circ ./HW5/tb.v
+```
+
+## Homework 6
+
+Add following instructions to your processor :
+
+| Instruction | Type   | Opcode   | Funct    | Notes                                   |
+| ----------- | ------ | -------- | -------- | --------------------------------------- |
+| `mul`       | R-Type | `011100` | `000010` | `rd = rs * rt (signed-multiply)`        |
+| `jr`        | R-Type | `000000` | `001000` | `pc = rs`                               |
+| `jal`       | J-Type | `000011` | —        | `r31(ra) = pc+1 & pc=addr`              |
+| `beq`       | I-Type | `000100` | —        | `if(rs==rt) pc+=offset` (sign-extended) |
+
+It is highly suggested that you start the transition to pipelined architecture.
+
+The evaluation of this exercise is performed with:
+
+```bash
+    ./synth_valid.sh schematic.circ ./HW6/tb.v
 ```
