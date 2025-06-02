@@ -46,28 +46,58 @@ pub fn main() !void {
 pub noinline fn fnc() void {
     asm volatile (
         \\j main
+        \\nop
+        \\nop
         \\
-        \\fact:
+        \\fibo:
         \\addi $v0 , $zero , 1
+        \\addi $t0 , $zero , 1
         \\beqz $a0 , done
         \\nop
+        \\nop
         \\loop:
-        \\mul $v0 , $a0 , $v0
+        \\add $t1 , $v0 , $zero
+        \\add $v0 , $v0 , $t0
+        \\nop
+        \\nop
+        \\nop
         \\addi $a0 , $a0 , -1
+        \\add $t0 , $t1 , $zero
+        \\nop
+        \\nop
+        \\nop
         \\bnez $a0 , loop
+        \\nop
         \\nop
         \\done:
         \\jr $ra
         \\nop
+        \\nop
         \\
         \\main:
         \\addi $sp , $sp , -8
+        \\nop
+        \\nop
+        \\nop
+        \\nop
         \\sw $ra , ($sp)
         \\addi $a0 , $zero , 12
-        \\jal fact
+        \\nop
+        \\nop
+        \\nop
+        \\jal fibo
+        \\nop
+        \\nop
         \\lw $ra , ($sp)
         \\addi $sp , $sp , 8
-        \\
+        \\nop
+        \\nop
+        \\nop
+        \\nop
+        \\nop
+        \\nop
+        \\nop
+        \\nop
     );
 }
 

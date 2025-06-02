@@ -15,16 +15,16 @@ const Instruction = packed struct {
 /// ```bash
 /// readelf -l mips-exe
 /// ```
-const foff = 0x000350;
-const voff = 0x00020350;
+const foff = 0x0002a0;
+const voff = 0x000202a0;
 
 /// function address
 /// ```bash
 /// nm -C --defined-only mips-exe | rg fnc
 /// ```
-const vaddr = 0x000207c0;
+const vaddr = 0x00020720;
 
-const num_inst = 60;
+const num_inst = 53;
 
 pub fn main() !void {
     const f =
