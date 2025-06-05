@@ -7,6 +7,7 @@ module tb;
     wire [31:0] Jout;
     wire InstDone;
     wire [31:0] R[32];
+    wire [8:0] PC;
     assign R[0] = 0;
 
     reg [31:0] inst_reg;
@@ -158,7 +159,8 @@ module tb;
         .R28(R[28]),
         .R29(R[29]),
         .R30(R[30]),
-        .R31(R[31])
+        .R31(R[31]),
+        .PC(PC)
     );
 
     initial begin
@@ -272,7 +274,8 @@ module tb;
                 $display("ipc : ", ipc);
                 exec_internal();
                 #2;
-                while (InstDone !== 1) #2;  // waiting until your circuit is ready
+                while (InstDone !== 1 || PC !== ipc)
+                #2;  // waiting until your circuit is ready and in sync
 
                 for (j = 1; j < 32; j++) if (R[j] !== ireg[j]) fail_flag = 1;
                 if (fail_flag) begin
